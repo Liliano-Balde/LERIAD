@@ -1,0 +1,84 @@
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 20vmin;
+  pointer-events: none;
+}
+
+.border-color {
+  color: #0E161F;
+}
+
+.background-image {
+  opacity: 0.1;
+}
+
+.homeimage {
+  background: url("../public/Logo2.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+  height: 1.5cm;
+  width: 10cm;
+  background-position: left;
+  margin-left: 20px;
+}
+
+.background-image-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(Background.png);
+  background-size: cover;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .homeimage {
+    height: 1cm; 
+    width: 7cm; 
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .homeimage {
+    height: 0.5cm; 
+    width: 5cm;    
+  }
+}
+
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,4 @@
+.nav-link:hover {
+    background-color: rgb(98, 131, 229);
+    box-shadow: 0 0 50px rgb(136, 151, 196);
+  }

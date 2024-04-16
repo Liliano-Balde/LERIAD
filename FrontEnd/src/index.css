@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+
+  background-image: url(Background.png);
+  background-size: cover;
+  font-family: 'Verdana',
+    sans-serif;
+    /* -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; */
+  
+  
+}
+
+body {
+  font-family: 'Verdana', sans-serif;
+}
+
+code {
+  font-family:  'Verdana', sans-serif;
+   
+}
