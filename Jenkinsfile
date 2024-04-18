@@ -8,6 +8,15 @@ pipeline {
                 }
             }
         }
+        stage('Build Frontend') {
+            steps {
+                dir('FrontEnd') {
+                    bat 'npm install'
+                    bat 'npm run build'
+                }
+            }
+        }
     }
 }
+
 
