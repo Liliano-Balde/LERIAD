@@ -5,14 +5,15 @@ pipeline {
             steps {
                 dir ('BackEnd'){
                 bat 'mvn package -Dmaven.test.skip'
+                }
                 dir('FrontEnd') {
-                    bat 'npm install'
-                    }
+                bat 'npm install'
+                }
                 }
             }
         }
         
     }
-}
+
 
 
