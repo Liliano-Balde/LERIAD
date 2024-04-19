@@ -3,8 +3,19 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'mvn package -Dmaven.test.skip'
+                dir ('BackEnd'){
+                bat 'mvn package -Dmaven.test.skip'
+                }
+            }
+        }
+        stage('Build Frontend') {
+            steps {
+                dir('FrontEnd') {
+                    bat 'npm install'
+                }
             }
         }
     }
 }
+
+
