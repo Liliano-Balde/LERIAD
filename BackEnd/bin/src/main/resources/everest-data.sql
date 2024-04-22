@@ -1,9 +1,58 @@
-INSERT INTO `everest`.`items` (`item_name`, `item_price`, `item_quantity`, `item_description`) VALUES ('card reader',44.99,1146, 'reader');
-INSERT INTO `everest`.`items` (`item_name`, `item_price`, `item_quantity`, `item_description`) VALUES ('phone',679.99,6713, 'reader');
-INSERT INTO `everest`.`items` (`item_name`, `item_price`, `item_quantity`, `item_description`) VALUES ('card',0.99,15, 'reader');
-INSERT INTO `everest`.`items` (`item_name`, `item_price`, `item_quantity`, `item_description`) VALUES ('book',14.99,93, 'reader');
-INSERT INTO `everest`.`customer` (`fk_item_id`) VALUES (3);
-INSERT INTO `everest`.`customer` (`fk_item_id`) VALUES (1);
-INSERT INTO `everest`.`customer` (`fk_item_id`) VALUES (2);
-INSERT INTO `everest`.`customer` (`fk_item_id`) VALUES (2);
-INSERT INTO `everest`.`customer` (`fk_item_id`) VALUES (4);
+INSERT INTO
+    `customer` (
+        `name`,
+        `address`,
+        `email`,
+        `phone`,
+        `username`,
+        `password`
+    )
+VALUES
+    (
+
+        'Liliano',
+        '123 Road',
+        'leo@domain.com',
+        '012345678',
+        'LB2024',
+        'testing'
+    );
+
+INSERT INTO
+    `item` (
+        `customer_id`,
+        `name`,
+        `price`,
+        `quantity`,
+        `description`
+    )
+VALUES
+
+    (1, 'Strawberries', 4.99, 5, 'Organic');
+
+
+INSERT INTO
+    `item` (
+        `customer_id`,
+        `name`,
+        `price`,
+        `quantity`,
+        `description`
+    )
+VALUES
+
+    (1, 'Camera', 149.99, 4, 'Advanced Focus');
+
+
+INSERT INTO
+    `item` (
+        `customer_id`,
+        `name`,
+        `price`,
+        `quantity`,
+        `description`
+    )
+VALUES
+
+    (1, 'Drone', 1500, 2, 'Real-time FPV');
+
