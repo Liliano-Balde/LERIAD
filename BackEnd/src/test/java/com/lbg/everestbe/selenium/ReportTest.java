@@ -44,9 +44,9 @@ public class ReportTest {
 	void reportTest() throws InterruptedException {
 		this.driver.get("http://localhost:3000/report-issues");
 
-//		WebElement reportClick = this.driver.findElement(By
-//				.cssSelector("#root > nav > div > div > div > div > div.col-md-5.my-auto > ul > li:nth-child(3) > a"));
-//		reportClick.click();
+		WebElement reportClick = this.driver.findElement(By
+				.cssSelector("#root > nav > div > div > div > div > div.col-md-5.my-auto > ul > li:nth-child(3) > a"));
+		reportClick.click();
 
 		WebElement email = this.driver.findElement(By.cssSelector("#email"));
 		email.sendKeys("justanemail@domain.com");
@@ -63,7 +63,7 @@ public class ReportTest {
 		WebElement checklert = this.wait.until(ExpectedConditions
 				.presenceOfElementLocated(By.cssSelector("#root > div > div > div > div > div.content")));
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checklert);
-		Assertions.assertEquals("Issue reported successfully!", checklert.getText());
+		Assertions.assertEquals("Thank you for your feedback!", checklert.getText());
 
 		WebElement continueClick = this.driver
 				.findElement(By.cssSelector("#root > div > div > div > div > div.btnContainer > button"));
