@@ -228,5 +228,6 @@ public class BasketTest {
 				.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#root > div > header > h1")));
 		Assertions.assertEquals("Payment Details", checkCheckoutPage.getText());
 
+		driver.quit();
 	}
 }

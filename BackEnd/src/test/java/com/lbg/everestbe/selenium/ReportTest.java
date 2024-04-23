@@ -71,5 +71,7 @@ public class ReportTest {
 		Thread.sleep(1000);
 		continueClick.click();
 
+		driver.quit();
+
 	}
 }

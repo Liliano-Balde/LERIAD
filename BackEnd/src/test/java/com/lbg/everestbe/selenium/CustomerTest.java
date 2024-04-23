@@ -133,6 +133,6 @@ public class CustomerTest {
 		} catch (NoSuchElementException ex) {
 
 		}
-
+		driver.quit();
 	}
 }
