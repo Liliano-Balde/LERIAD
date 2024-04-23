@@ -12,13 +12,7 @@ pipeline {
                 }
             }
         }
-        // stage('Test') { 
-        //     steps {
-        //         dir ('BackEnd') {
-        //             bat 'mvn test'
-        //         }
-        //     }
-        // }
+        
         stage('Build Docker FE image') { 
             steps {
                 dir ('FrontEnd') {
@@ -30,6 +24,13 @@ pipeline {
             steps {
                 dir ('FrontEnd') {
                     bat 'docker run -d -p 3001:3000 leriad-react'
+                }
+            }
+        }
+        stage('Test') { 
+            steps {
+                dir ('BackEnd') {
+                    bat 'mvn test'
                 }
             }
         }
