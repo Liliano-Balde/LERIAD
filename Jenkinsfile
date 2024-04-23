@@ -16,7 +16,7 @@ pipeline {
         stage('Build Docker image') { 
             steps {
                 dir ('BackEnd') {
-                    bat 'docker build -t leriad-app .'
+                    bat 'docker build -t leriad-spring .'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
         stage('Run Docker container') {
             steps {
                 dir ('BackEnd') {
-                    bat 'docker run -p 8000:8082 leriad-app'
+                    bat 'docker run -p 8082:8082 leriad-spring'
                 }
             }
         }
