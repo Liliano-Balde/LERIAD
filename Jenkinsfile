@@ -23,7 +23,7 @@ pipeline {
         stage('Run Docker FE container') { 
             steps {
                 dir ('FrontEnd') {
-                    bat 'docker run -p 3000:3000 leriad-spring'
+                    bat 'docker run -p 3000:3000 leriad-react'
                 }
             }
         }
