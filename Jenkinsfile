@@ -37,7 +37,7 @@ pipeline {
         stage('Run Docker BE container') {
             steps {
                 dir ('BackEnd') {
-                    bat 'docker run -d -p 8082:8082 leriad-spring'
+                    bat 'docker run -d -p 8081:8082 leriad-spring'
                 }
             }
         }
