@@ -4,48 +4,72 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                dir ('BackEnd') {
-                    bat 'mvn package -Dmaven.test.skip'
-                }
-                dir('FrontEnd') {
-                    bat 'npm install'
+                script {
+                    // Build backend
+                    dir ('BackEnd') {
+                        bat 'mvn package -Dmaven.test.skip'
+                    }
+                    // Build frontend
+                    dir('FrontEnd') {
+                        bat 'npm install'
+                    }
                 }
             }
         }
         
-        stage('Build Docker FE image') { 
-            steps {
-                dir ('FrontEnd') {
-                    bat 'docker build -t leriad-react .'
+        stage('Build Docker Images') { 
+            parallel {
+                stage('Build Docker FE image') {
+                    steps {
+                        dir ('FrontEnd') {
+                            bat 'docker build -t leriad-react .'
+                        }
+                    }
+                }
+                stage('Build Docker BE image') {
+                    steps {
+                        dir ('BackEnd') {
+                            bat 'docker build -t leriad-spring .'
+                        }
+                    }
                 }
             }
         }
-        stage('Run Docker FE container') { 
+        
+        stage('Run Docker Containers') {
             steps {
+                // Run frontend container
                 dir ('FrontEnd') {
                     bat 'docker run -d -p 3001:3000 leriad-react'
                 }
-            }
-        }
-        stage('Test') { 
-            steps {
-                dir ('BackEnd') {
-                    bat 'mvn test'
-                }
-            }
-        }
-        stage('Build Docker BE image') { 
-            steps {
-                dir ('BackEnd') {
-                    bat 'docker build -t leriad-spring .'
-                }
-            }
-        }
-        stage('Run Docker BE container') {
-            steps {
+                // Run backend container
                 dir ('BackEnd') {
                     bat 'docker run -d -p 8081:8082 leriad-spring'
                 }
+            }
+        }
+        
+        stage('Test') { 
+            steps {
+                // Add a timeout to prevent hanging
+                timeout(time: 10, unit: 'MINUTES') {
+                    // Run backend tests
+                    dir ('BackEnd') {
+                        bat 'mvn test'
+                    }
+                    // Run frontend tests (if applicable)
+                    // Add your frontend test command here
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Cleanup: stop and remove Docker containers
+            script {
+                bat 'docker stop $(docker ps -aq)'
+                bat 'docker rm $(docker ps -aq)'
             }
         }
     }
