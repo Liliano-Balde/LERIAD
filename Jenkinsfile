@@ -57,8 +57,7 @@ pipeline {
                     dir ('BackEnd') {
                         bat 'mvn test'
                     }
-                    // Run frontend tests (if applicable)
-                    // Add your frontend test command here
+                   
                 }
             }
         }
