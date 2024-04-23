@@ -151,6 +151,6 @@ public class ItemTest {
 		} catch (NoSuchElementException ex) {
 
 		}
-
+		driver.quit();
 	}
 }

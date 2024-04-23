@@ -21,5 +21,5 @@ create table
         `description` varchar(255) not null,
         `name` varchar(255) not null,
         `customer_id` integer,
-        foreign key (customer_id) references customer
+        foreign key (`customer_id`) references `customer` (`id`)
     );
