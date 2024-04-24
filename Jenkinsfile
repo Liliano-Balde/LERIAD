@@ -8,6 +8,7 @@ pipeline {
                     // Build frontend
                     // bat 'docker stop react-container'
                     // bat 'docker rm react-container'
+                    bat 'docker stop $(docker ps -q)'
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
