@@ -5,8 +5,8 @@ pipeline {
         stage('Build') { 
             steps {
                 script {
-                    bat 'docker stop $(docker ps -aq)'
-                    bat 'docker rm $(docker ps -aq)'
+                    bat 'docker stop $(docker ps -q)'
+                    bat 'docker rm $(docker ps -q)'
                     // Build frontend
                     dir('FrontEnd') {
                         bat 'npm install'
