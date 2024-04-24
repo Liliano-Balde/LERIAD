@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('Build FE') { 
+        stage('Build Front End') { 
             steps {
                 script {
                     // Build frontend
-                    bat 'docker stop react-container'
-                    bat 'docker rm react-container'
+                    // bat 'docker stop react-container'
+                    // bat 'docker rm react-container'
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -67,10 +67,13 @@ pipeline {
             // Cleanup: stop and remove Docker containers
             script {
                 // Build backend
+                    bat 'docker stop react-container'
+                    bat 'docker rm react-container'
                     dir ('BackEnd') {
                         bat 'mvn package -Dmaven.test.skip'
                     }
-               
+               archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                junit 'reports/**/*.xml'
             }
         }
     }
