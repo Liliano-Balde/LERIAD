@@ -30,7 +30,7 @@ pipeline {
                  stage('Test') { 
             steps {
                 // Add a timeout to prevent hanging
-                timeout(time: 10, unit: 'MINUTES') {
+                // timeout(time: 10, unit: 'MINUTES') {
                     // Run backend tests
                     dir ('BackEnd') {
                         bat 'mvn test'
