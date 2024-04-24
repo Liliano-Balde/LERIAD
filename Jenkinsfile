@@ -72,10 +72,10 @@ pipeline {
                     dir ('BackEnd') {
                         bat 'mvn package -Dmaven.test.skip'
                     }
-               archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                }
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 junit 'reports/**/*.xml'
             }
         }
     }
-}
 
