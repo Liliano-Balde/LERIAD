@@ -70,8 +70,7 @@ pipeline {
                     dir ('BackEnd') {
                         bat 'mvn package -Dmaven.test.skip'
                     }
-                bat 'docker stop $(docker ps -aq)'
-                bat 'docker rm $(docker ps -aq)'
+               
             }
         }
     }
