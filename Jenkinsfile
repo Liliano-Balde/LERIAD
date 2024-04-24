@@ -5,9 +5,8 @@ pipeline {
         stage('Build') { 
             steps {
                 script {
-                    bat 'docker stop $(docker ps -q)'
-                    bat 'docker rm $(docker ps -q)'
                     // Build frontend
+                    docker stop react-container
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -23,7 +22,7 @@ pipeline {
                             bat 'docker build -t leriad-react .'
                              // Run frontend container
                          dir ('FrontEnd') {
-                            bat 'docker run -d -p 3000:3000 leriad-react'
+                            bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
                 }
                         }
                     }
