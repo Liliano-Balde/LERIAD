@@ -3,7 +3,7 @@ import axios from 'axios';
 import Modal from './Customer/Modal';
 import { useNavigate } from "react-router-dom";
 
-// Contact form conponent
+// Contact form conponents
 function ContactForm() {
   const [email, setEmail] = useState('');
   const [issue, setIssue] = useState('');
