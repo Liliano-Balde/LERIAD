@@ -36,8 +36,8 @@ pipeline {
                 // timeout(time: 10, unit: 'MINUTES') {
                     // Run backend tests
                     dir ('BackEnd') {
-                        bat 'mvn test'
-                    
+                        // bat 'mvn test'
+                        bat '.\mvnw test'
                 }
             }
         }
