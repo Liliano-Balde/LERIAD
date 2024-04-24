@@ -22,7 +22,7 @@ pipeline {
                             bat 'docker build -t leriad-react .'
                              // Run frontend container
                          dir ('FrontEnd') {
-                            bat 'docker run -d -p 3000:3003 leriad-react'
+                            bat 'docker run -d -p 3000:3000 leriad-react'
                 }
                         }
                     }
@@ -54,7 +54,7 @@ pipeline {
                
                 // Run backend container
                 dir ('BackEnd') {
-                    bat 'docker run -d -p 8000:8082 leriad-spring'
+                    bat 'docker run -d -p 8082:8082 leriad-spring'
                 }
             }
         }
