@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build frontend
-                    docker stop react-container
+                    bat docker stop react-container
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
