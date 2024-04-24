@@ -74,7 +74,7 @@ pipeline {
                     }
                 }
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                junit 'reports/**/*.xml'
+                junit 'build/reports/**/*.xml''
             }
         }
     }
