@@ -25,23 +25,19 @@ pipeline {
                          dir ('FrontEnd') {
 
                             bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
-                }
-
+                             }
                         }
                     }
                 }
+               
         stage('Test') { 
-                stage('Maven test') {
                     steps {
                 // Add a timeout to prevent hanging
-
                 // timeout(time: 10, unit: 'MINUTES') {
-
                     // Run backend tests
                     dir ('BackEnd') {
                         bat 'mvn test'
-                    }
-                   
+                    
                 }
             }
         }
@@ -63,9 +59,7 @@ pipeline {
                     bat 'docker run -d -p 8082:8082 leriad-spring'
                 }
             }
-        }
-        
-       
+        }    
     }
     
     post {
