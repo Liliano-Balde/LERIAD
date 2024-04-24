@@ -9,7 +9,7 @@ pipeline {
                     bat 'docker stop react-container'
                     bat 'docker rm react-container'
                     dir('FrontEnd') {
-                        bat 'npm install'
+                        bat 'npm installlg'
                     }
                 }
             }
