@@ -56,7 +56,7 @@ pipeline {
                
                 // Run backend container
                 dir ('BackEnd') {
-                    bat 'docker run -d -p 8082:8082 leriad-spring'
+                    bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
                 }
             }
         }    
