@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') { 
+        stage('Build FE') { 
             steps {
                 script {
                     // Build frontend
@@ -51,7 +51,7 @@ pipeline {
             }
         }
         
-        stage('Run Docker Containers') {
+        stage('Run Docker BE Container') {
             steps {
                
                 // Run backend container
