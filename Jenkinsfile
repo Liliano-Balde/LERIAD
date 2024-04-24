@@ -26,7 +26,7 @@ pipeline {
 
                             bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
                 }
->>>>>>> e04151382f8d6bed44de4e2970b1f7ab8b8ca52a
+
                         }
                     }
                 }
@@ -36,7 +36,7 @@ pipeline {
                 // Add a timeout to prevent hanging
 
                 // timeout(time: 10, unit: 'MINUTES') {
->>>>>>> e04151382f8d6bed44de4e2970b1f7ab8b8ca52a
+
                     // Run backend tests
                     dir ('BackEnd') {
                         bat 'mvn test'
