@@ -66,6 +66,15 @@ pipeline {
             }
         }     
     }
+    stage('Push Images') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
+                // Run backend container
+                bat 'docker push lb187/leriad-react:latest'
+                bat 'docker push lb187/leriad-spring:latest'
+                }
+            }
+        }  
     post {
         always {
             // Cleanup: stop and remove Docker containers
