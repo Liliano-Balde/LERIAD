@@ -73,16 +73,7 @@ pipeline {
     //             }                
     //     }
     // }
-    stage('Login & Push Images') {
-    steps {
-        script {
-            docker.withRegistry('https://registry-1.docker.io', 'dockerhub') {
-                docker.image('lb187/leriad-react:latest').push()
-                docker.image('lb187/leriad-spring:latest').push()
-            }
-        }
-    }
-}
+   
     stage('Push Images') {
             steps {
                  bat 'docker push lb187/leriad-react:latest'
