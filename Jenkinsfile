@@ -70,7 +70,7 @@ pipeline {
             steps {
                 // Run backend container
                 withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
-                bat 'docker login -u lb187 p ${dockerhubpwd}'
+                // bat 'docker login -u lb187 p ${dockerhubpwd}'
                 bat 'docker push lb187/leriad-react:latest'
                 bat 'docker push lb187/leriad-spring:latest'
                 }
