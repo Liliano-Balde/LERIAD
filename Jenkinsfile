@@ -6,10 +6,10 @@ pipeline {
             steps {
                 script {
                     // Build frontend
-                    // bat 'docker stop react-container'
-                    // bat 'docker rm react-container'
-                    // bat 'docker stop spring-container'
-                    // bat 'docker rm spring-container'
+                    bat 'docker stop react-container'
+                    bat 'docker rm react-container'
+                    bat 'docker stop spring-container'
+                    bat 'docker rm spring-container'
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -54,6 +54,7 @@ pipeline {
                     }
                 }
             }
+        }
         
         stage('Run Docker BE Container') {
             steps {
@@ -63,8 +64,17 @@ pipeline {
                     bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
                 }
             }
-        }     
-    }
+        }    
+    
+    stage('Push Images') {
+            steps {
+                // Run backend container
+                bat 'docker push lb187/leriad-react:latest'
+                bat 'docker push lb187/leriad-spring:latest'
+                }
+            }
+        }    
+    
     
     post {
         always {
@@ -84,3 +94,4 @@ pipeline {
             }
         }
     }
+
