@@ -69,7 +69,7 @@ pipeline {
     stage('Push Images') {
             steps {
                 // Run backend container
-                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
                 bat 'docker push lb187/leriad-react:latest'
                 bat 'docker push lb187/leriad-spring:latest'
                 }
