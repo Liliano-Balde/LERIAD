@@ -67,10 +67,10 @@ pipeline {
         }   
         stage('Login'){
             steps{
-                withCredentials([string(credentialsId: env.DOCKERHUB_CREDENTIALS, variable: 'DOCKERHUB_CREDENTIALS')]) {
-                        sh "echo ${DOCKERHUB_CREDENTIALS} | docker login -u lb187 --password-stdin"
-                // bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
+                bat 'docker logout'
+                bat 'echo ${cend} | docker login -u ${usr} -password-stdin'
+                }                
         }
     }
     stage('Push Images') {
