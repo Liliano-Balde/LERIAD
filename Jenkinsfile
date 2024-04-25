@@ -6,8 +6,10 @@ pipeline {
             steps {
                 script {
                     // Build frontend
-                    bat 'docker stop react-container'
-                    bat 'docker rm react-container'
+                    // bat 'docker stop react-container'
+                    // bat 'docker rm react-container'
+                    // bat 'docker stop spring-container'
+                    // bat 'docker rm spring-container'
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -15,12 +17,13 @@ pipeline {
             }
         }
         
-        stage('Build Docker Images') { 
+        stage('Build & tag Docker Images') { 
             parallel {
                 stage('Build Docker FE image') {
                     steps {
                         dir ('FrontEnd') {
                             bat 'docker build -t leriad-react .'
+                            bat 'docker tag leriad-react lb187/leriad-react:latest'
                              // Run frontend container
                          dir ('FrontEnd') {
 
@@ -32,12 +35,13 @@ pipeline {
                
         stage('Test') { 
                     steps {
+                        //just testing
                 // Add a timeout to prevent hanging
                 // timeout(time: 10, unit: 'MINUTES') {
                     // Run backend tests
                     dir ('BackEnd') {
                         bat 'mvn test'
-                    
+                        // bat '.\mvnw test'
                 }
             }
         }
@@ -45,6 +49,7 @@ pipeline {
                     steps {
                         dir ('BackEnd') {
                             bat 'docker build -t leriad-spring .'
+                            bat 'docker tag leriad-spring lb187/leriad-spring:latest'
                         }
                     }
                 }
@@ -56,7 +61,27 @@ pipeline {
                
                 // Run backend container
                 dir ('BackEnd') {
-                    bat 'docker run -d -p 8082:8082 leriad-spring'
+                    bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
+                }
+            }
+        }   
+        stage('Login'){
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
+                bat 'docker logout'
+                bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
+                }                
+        }
+    }
+    stage('Push Images') {
+            steps {
+                 bat 'docker push lb187/leriad-react:latest'
+                bat 'docker push lb187/leriad-spring:latest'
+                // // Run backend container
+                // withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
+                // // bat 'docker login -u lb187 p ${dockerhubpwd}'
+                // bat 'docker push lb187/leriad-react:latest'
+                // bat 'docker push lb187/leriad-spring:latest'
                 }
             }
         }    
@@ -67,15 +92,16 @@ pipeline {
             // Cleanup: stop and remove Docker containers
             script {
                 // Build backend
-                    // bat 'docker stop react-container'
-                    // bat 'docker rm react-container'
+                    bat 'docker stop react-container'
+                    bat 'docker rm react-container'
+                    bat 'docker stop spring-container'
+                    bat 'docker rm spring-container'
                     dir ('BackEnd') {
                         bat 'mvn package -Dmaven.test.skip'
+                        bat 'docker logout'
                     }
                 }
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                junit 'reports/**/*.xml'
+                junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
-    }
-
