@@ -69,7 +69,7 @@ pipeline {
             steps{
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
                 bat 'docker logout'
-                bat 'echo ${cend} | docker login -u ${usr} -password-stdin'
+                bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
                 }                
         }
     }
