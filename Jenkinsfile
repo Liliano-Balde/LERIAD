@@ -67,30 +67,25 @@ pipeline {
         }   
         stage('Login'){
             steps{
-                // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
-                // bat 'docker logout'
-                // bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
-                docker.withRegistry('https://registry-1.docker.io', 'dockerhub') {
-                        docker.image('lb187/leriad-react:latest').push()
-                        docker.image('lb187/leriad-spring:latest').push()
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
+                bat 'docker logout'
+                bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
                 }                
         }
     }
+    stage('Push Images') {
+            steps {
+                 bat 'docker push lb187/leriad-react:latest'
+                bat 'docker push lb187/leriad-spring:latest'
+                // // Run backend container
+                // withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
+                // // bat 'docker login -u lb187 p ${dockerhubpwd}'
+                // bat 'docker push lb187/leriad-react:latest'
+                // bat 'docker push lb187/leriad-spring:latest'
+                }
+            }
+        }    
     }
-}
-    // stage('Push Images') {
-    //         steps {
-    //              bat 'docker push lb187/leriad-react:latest'
-    //             bat 'docker push lb187/leriad-spring:latest'
-    //             // // Run backend container
-    //             // withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
-    //             // // bat 'docker login -u lb187 p ${dockerhubpwd}'
-    //             // bat 'docker push lb187/leriad-react:latest'
-    //             // bat 'docker push lb187/leriad-spring:latest'
-    //             }
-    //         }
-        // }    
-    // }
     
     post {
         always {
@@ -110,4 +105,3 @@ pipeline {
                 junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
-}
