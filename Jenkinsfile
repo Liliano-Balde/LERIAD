@@ -18,7 +18,7 @@ environment {
                     }
                 }
             }
-        }
+        
         
         stage('Build & tag Docker Images') { 
             parallel {
