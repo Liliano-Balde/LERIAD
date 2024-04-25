@@ -17,12 +17,13 @@ pipeline {
             }
         }
         
-        stage('Build Docker Images') { 
+        stage('Build & tag Docker Images') { 
             parallel {
                 stage('Build Docker FE image') {
                     steps {
                         dir ('FrontEnd') {
                             bat 'docker build -t leriad-react .'
+                            bat 'docker tag leriad-react lb187/leriad-react:latest'
                              // Run frontend container
                          dir ('FrontEnd') {
 
@@ -48,6 +49,7 @@ pipeline {
                     steps {
                         dir ('BackEnd') {
                             bat 'docker build -t leriad-spring .'
+                            bat 'docker tag leriad-spring lb187/leriad-spring:latest'
                         }
                     }
                 }
@@ -63,7 +65,16 @@ pipeline {
                 }
             }
         }    
-    }
+    
+    stage('Push Images') {
+            steps {
+                // Run backend container
+                bat 'docker push lb187/leriad-react:latest'
+                bat 'docker push lb187/leriad-spring:latest'
+                }
+            }
+        }    
+    
     
     post {
         always {
