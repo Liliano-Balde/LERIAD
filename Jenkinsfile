@@ -88,7 +88,7 @@ pipeline {
     //             // bat 'docker push lb187/leriad-spring:latest'
     //             }
     //         }
-        }    
+        // }    
     }
     
     post {
