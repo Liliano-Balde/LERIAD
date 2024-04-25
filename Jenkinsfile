@@ -65,7 +65,7 @@ pipeline {
                 }
             }
         }     
-    
+    }
     post {
         always {
             // Cleanup: stop and remove Docker containers
