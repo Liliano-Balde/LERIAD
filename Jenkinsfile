@@ -6,10 +6,10 @@ pipeline {
             steps {
                 script {
                     // Build frontend
-                    bat 'docker stop react-container'
-                    bat 'docker rm react-container'
-                    bat 'docker stop spring-container'
-                    bat 'docker rm spring-container'
+                    // bat 'docker stop react-container'
+                    // bat 'docker rm react-container'
+                    // bat 'docker stop spring-container'
+                    // bat 'docker rm spring-container'
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -69,12 +69,13 @@ pipeline {
     stage('Push Images') {
             steps {
                 // Run backend container
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 bat 'docker push lb187/leriad-react:latest'
                 bat 'docker push lb187/leriad-spring:latest'
                 }
             }
         }    
-    
+    }
     
     post {
         always {
