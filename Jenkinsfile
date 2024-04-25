@@ -54,7 +54,6 @@ pipeline {
                     }
                 }
             }
-        }
         
         stage('Run Docker BE Container') {
             steps {
