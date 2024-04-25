@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-environment {
-    DOCKERHUB_CREDENTIALS = credentials('lb187-dockerhub')
-}
     stages {
         stage('Build Front End') { 
             steps {
