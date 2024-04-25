@@ -67,9 +67,9 @@ pipeline {
         }   
         stage('Login'){
             steps{
-                docker.withRegistry('https://registry-1.docker.io', 'dockerhub') {
-                        docker.image('lb187/leriad-react:latest').push()
-                        docker.image('lb187/leriad-spring:latest').push()
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
+                bat 'docker logout'
+                bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
                 }                
         }
     }
