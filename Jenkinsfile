@@ -73,6 +73,7 @@ pipeline {
                 }                
         }
     }
+    }
     // stage('Push Images') {
     //         steps {
     //              bat 'docker push lb187/leriad-react:latest'
