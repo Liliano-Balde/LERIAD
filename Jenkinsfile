@@ -8,6 +8,8 @@ pipeline {
                     // Build frontend
                     bat 'docker stop react-container'
                     bat 'docker rm react-container'
+                    bat 'docker stop spring-container'
+                    bat 'docker rm spring-container'
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -68,8 +70,10 @@ pipeline {
             // Cleanup: stop and remove Docker containers
             script {
                 // Build backend
-                    // bat 'docker stop react-container'
-                    // bat 'docker rm react-container'
+                    bat 'docker stop react-container'
+                    bat 'docker rm react-container'
+                    bat 'docker stop spring-container'
+                    bat 'docker rm spring-container'
                     dir ('BackEnd') {
                         bat 'mvn package -Dmaven.test.skip'
                     }
