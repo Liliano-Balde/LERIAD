@@ -5,6 +5,11 @@ pipeline {
         stage('Build Front End') { 
             steps {
                 script {
+                    // Build frontend
+                    // bat 'docker stop react-container'
+                    // bat 'docker rm react-container'
+                    // bat 'docker stop spring-container'
+                    // bat 'docker rm spring-container'
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -16,24 +21,33 @@ pipeline {
             parallel {
                 stage('Build Docker FE image') {
                     steps {
-                        dir('FrontEnd') {
+                        dir ('FrontEnd') {
                             bat 'docker build -t leriad-react .'
                             bat 'docker tag leriad-react lb187/leriad-react:latest'
+                             // Run frontend container
+                         dir ('FrontEnd') {
+
                             bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
+                             }
                         }
                     }
                 }
-                
-                stage('Test') { 
+               
+        stage('Test') { 
                     steps {
-                        // Add your test commands here
-                        // e.g., mvn test for backend tests
-                    }
+                        //just testing
+                // Add a timeout to prevent hanging
+                // timeout(time: 10, unit: 'MINUTES') {
+                    // Run backend tests
+                    dir ('BackEnd') {
+                        bat 'mvn test'
+                        // bat '.\mvnw test'
                 }
-                
-                stage('Build Docker BE image') {
+            }
+        }
+        stage('Build Docker BE image') {
                     steps {
-                        dir('BackEnd') {
+                        dir ('BackEnd') {
                             bat 'docker build -t leriad-spring .'
                             bat 'docker tag leriad-spring lb187/leriad-spring:latest'
                         }
@@ -44,21 +58,30 @@ pipeline {
         
         stage('Run Docker BE Container') {
             steps {
-                dir('BackEnd') {
+               
+                // Run backend container
+                dir ('BackEnd') {
                     bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
                 }
             }
         }   
-        
-        stage('Login & Push Images') {
+        stage('Login'){
+            steps{
+                docker.withRegistry('https://registry-1.docker.io', 'dockerhub') {
+                        docker.image('lb187/leriad-react:latest').push()
+                        docker.image('lb187/leriad-spring:latest').push()
+                }                
+        }
+    }
+    stage('Push Images') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
-                        docker.withRegistry('https://registry-1.docker.io', 'dockerhub') {
-                            docker.image('lb187/leriad-react:latest').push()
-                            docker.image('lb187/leriad-spring:latest').push()
-                        }
-                    }
+                 bat 'docker push lb187/leriad-react:latest'
+                bat 'docker push lb187/leriad-spring:latest'
+                // // Run backend container
+                // withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
+                // // bat 'docker login -u lb187 p ${dockerhubpwd}'
+                // bat 'docker push lb187/leriad-react:latest'
+                // bat 'docker push lb187/leriad-spring:latest'
                 }
             }
         }    
@@ -68,14 +91,17 @@ pipeline {
         always {
             // Cleanup: stop and remove Docker containers
             script {
-                bat 'docker stop react-container'
-                bat 'docker rm react-container'
-                bat 'docker stop spring-container'
-                bat 'docker rm spring-container'
-                dir('BackEnd') {
-                    bat 'mvn package -Dmaven.test.skip'
+                // Build backend
+                    bat 'docker stop react-container'
+                    bat 'docker rm react-container'
+                    bat 'docker stop spring-container'
+                    bat 'docker rm spring-container'
+                    dir ('BackEnd') {
+                        bat 'mvn package -Dmaven.test.skip'
+                        bat 'docker logout'
+                    }
                 }
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
-    }
-}
