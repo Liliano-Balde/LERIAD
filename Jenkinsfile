@@ -18,7 +18,7 @@ environment {
                     }
                 }
             }
-        
+        }
         
         stage('Build & tag Docker Images') { 
             parallel {
@@ -106,4 +106,4 @@ environment {
                 junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
-    }
+    
