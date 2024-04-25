@@ -76,8 +76,8 @@ pipeline {
                 }                
         }
     }
+    }
 }
-
     // stage('Push Images') {
     //         steps {
     //              bat 'docker push lb187/leriad-react:latest'
@@ -110,4 +110,4 @@ pipeline {
                 junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
-}
+
