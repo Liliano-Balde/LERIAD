@@ -45,49 +45,50 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker BE image') {
+        stage('Deploy') {
                     steps {
                         dir ('BackEnd') {
                             bat 'docker build -t leriad-spring .'
                             bat 'docker tag leriad-spring lb187/leriad-spring:latest'
+                            bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
                         }
                     }
                 }
             }
         }
         
-        stage('Run Docker BE Container') {
-            steps {
+        // stage('Deploy') {
+        //     steps {
                
-                // Run backend container
-                dir ('BackEnd') {
-                    bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
-                }
-            }
-        }   
-        stage('Login'){
-            steps{
-                // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
-                // // bat 'docker logout'
-                // bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
-                // }        
-                bat 'docker login -u lb187 -p {dockerhubpwd}'
-        }
-    }
+        //         // Run backend container
+        //         dir ('BackEnd') {
+        //             bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
+        //         }
+        //     }
+        // }   
+    //     stage('Login'){
+    //         steps{
+    //             // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
+    //             // // bat 'docker logout'
+    //             // bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
+    //             // }        
+    //             bat 'docker login -u lb187 -p {dockerhubpwd}'
+    //     }
+    // }
    
-    stage('Push Images') {
-            steps {
-                 bat 'docker push lb187/leriad-react:latest'
-                bat 'docker push lb187/leriad-spring:latest'
-                // // Run backend container
-                // withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
-                // // bat 'docker login -u lb187 p ${dockerhubpwd}'
-                // bat 'docker push lb187/leriad-react:latest'
-                // bat 'docker push lb187/leriad-spring:latest'
-                }
-            }
-        }    
-    }
+    // stage('Push Images') {
+    //         steps {
+    //              bat 'docker push lb187/leriad-react:latest'
+    //             bat 'docker push lb187/leriad-spring:latest'
+    //             // // Run backend container
+    //             // withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
+    //             // // bat 'docker login -u lb187 p ${dockerhubpwd}'
+    //             // bat 'docker push lb187/leriad-react:latest'
+    //             // bat 'docker push lb187/leriad-spring:latest'
+    //             }
+    //         }
+    //     }    
+    // }
     
     post {
         always {
