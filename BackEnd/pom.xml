@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.lbg</groupId>
-	<artifactId>Everestbe</artifactId>
+	<artifactId>BackEnd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Everestbe</name>
 	<description>ProjectEverest</description>
