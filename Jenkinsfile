@@ -6,9 +6,6 @@ pipeline {
             steps {
                 script {
                     // Build frontend
-                    // bat 'docker stop react-container'
-                    // bat 'docker rm react-container'
-
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -21,24 +18,23 @@ pipeline {
                 stage('Build Docker FE image') {
                     steps {
                         dir ('FrontEnd') {
+                            // Build frontend Docker image
                             bat 'docker build -t leriad-react .'
+                            // Tag the Docker image
                             bat 'docker tag leriad-react lb187/leriad-react:latest'
-                             // Run frontend container
-                         // dir ('FrontEnd') {
-
-                         //    bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
-                         //     }
+                            // Run frontend container
+                            dir ('FrontEnd') {
+                            bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
+                             }
                         }
                     }
                 }
                
         stage('Test') { 
                     steps {
-                // Add a timeout to prevent hanging
-                // timeout(time: 10, unit: 'MINUTES') {
                     // Run backend tests
                     dir ('BackEnd') {
-                        bat 'mvn test'
+                    bat 'mvn test'
                     
                 }
             }
