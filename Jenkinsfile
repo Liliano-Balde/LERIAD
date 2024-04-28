@@ -8,8 +8,7 @@ pipeline {
                     // Build frontend
                     // bat 'docker stop react-container'
                     // bat 'docker rm react-container'
-                    // bat 'docker stop spring-container'
-                    // bat 'docker rm spring-container'
+
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -17,7 +16,7 @@ pipeline {
             }
         }
         
-        stage('Build & tag Docker Images') { 
+        stage('Build Docker Images') { 
             parallel {
                 stage('Build Docker FE image') {
                     steps {
@@ -25,70 +24,48 @@ pipeline {
                             bat 'docker build -t leriad-react .'
                             bat 'docker tag leriad-react lb187/leriad-react:latest'
                              // Run frontend container
-                         dir ('FrontEnd') {
+                         // dir ('FrontEnd') {
 
-                            bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
-                             }
+                         //    bat 'docker run --name react-container -d -p 3000:3000 leriad-react'
+                         //     }
                         }
                     }
                 }
                
         stage('Test') { 
                     steps {
-                        //just testing
                 // Add a timeout to prevent hanging
                 // timeout(time: 10, unit: 'MINUTES') {
                     // Run backend tests
                     dir ('BackEnd') {
                         bat 'mvn test'
-                        // bat '.\mvnw test'
+                    
                 }
             }
         }
-        stage('Deploy') {
+        stage('Build Docker BE image') {
                     steps {
                         dir ('BackEnd') {
                             bat 'docker build -t leriad-spring .'
-                            bat 'docker tag leriad-spring lb187/leriad-spring:latest'
-                            bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
                         }
                     }
                 }
             }
-        // }
+        }
         
-        // stage('Deploy') {
-        //     steps {
+        stage('Deploy') {
+            steps {
                
-        //         // Run backend container
-        //         dir ('BackEnd') {
-        //             bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
-        //         }
-        //     }
-        // }   
-    //     stage('Login'){
-    //         steps{
-    //             // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'cend', usernameVariable: 'usr')]) {
-    //             // // bat 'docker logout'
-    //             // bat 'echo ${cend} | docker login -u ${usr} --password-stdin'
-    //             // }        
-    //             bat 'docker login -u lb187 -p {dockerhubpwd}'
-    //     }
-    // }
-   
-    // stage('Push Images') {
-    //         steps {
-    //              bat 'docker push lb187/leriad-react:latest'
-    //             bat 'docker push lb187/leriad-spring:latest'
-    //             // // Run backend container
-    //             // withCredentials([string(credentialsId: 'lb187', variable: 'dockerhubpwd')]) {
-    //             // // bat 'docker login -u lb187 p ${dockerhubpwd}'
-    //             // bat 'docker push lb187/leriad-react:latest'
-    //             // bat 'docker push lb187/leriad-spring:latest'
-    //             }
-    //         }
-    //     }    
-    // }
+                // Run backend container
+                dir ('BackEnd') {
+                    bat 'docker build -t leriad-spring .'
+                    bat 'docker tag leriad-spring lb187/leriad-spring:latest'
+                    bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
+
+                }
+            }
+        }    
+    }
     
     post {
         always {
@@ -108,3 +85,4 @@ pipeline {
                 junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
+
