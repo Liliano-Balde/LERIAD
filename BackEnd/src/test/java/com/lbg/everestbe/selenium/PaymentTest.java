@@ -81,6 +81,8 @@ public class PaymentTest {
 		Thread.sleep(500);
 		modalSubmit.click();
 
+		driver.quit();
+
 	}
 
 }

@@ -8,6 +8,7 @@ pipeline {
                     // Build frontend
                     // bat 'docker stop react-container'
                     // bat 'docker rm react-container'
+
                     dir('FrontEnd') {
                         bat 'npm install'
                     }
@@ -60,6 +61,7 @@ pipeline {
                     bat 'docker build -t leriad-spring .'
                     bat 'docker tag leriad-spring lb187/leriad-spring:latest'
                     bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
+
                 }
             }
         }    
@@ -83,4 +85,4 @@ pipeline {
                 junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
-    }
+
