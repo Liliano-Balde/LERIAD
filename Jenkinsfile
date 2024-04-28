@@ -42,6 +42,7 @@ pipeline {
         stage('Build Docker BE image') {
                     steps {
                         dir ('BackEnd') {
+                            // Build backend Docker image
                             bat 'docker build -t leriad-spring .'
                         }
                     }
@@ -51,11 +52,11 @@ pipeline {
         
         stage('Deploy') {
             steps {
-               
                 // Run backend container
                 dir ('BackEnd') {
-                    bat 'docker build -t leriad-spring .'
+                    // Tag the Docker image
                     bat 'docker tag leriad-spring lb187/leriad-spring:latest'
+                    // Run backend container
                     bat 'docker run --name spring-container -d -p 8082:8082 leriad-spring'
 
                 }
@@ -67,17 +68,21 @@ pipeline {
         always {
             // Cleanup: stop and remove Docker containers
             script {
-                // Build backend
+                    // Stop and remove Docker containers
                     bat 'docker stop react-container'
                     bat 'docker rm react-container'
                     bat 'docker stop spring-container'
                     bat 'docker rm spring-container'
                     dir ('BackEnd') {
+                        // Package the backend (skip tests)
                         bat 'mvn package -Dmaven.test.skip'
+                        // Logout from Docker registry
                         bat 'docker logout'
                     }
                 }
+                 // Archive artifacts
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                // Collect JUnit test results
                 junit '**/target/surefire-reports/TEST-*.xml'
             }
         }
